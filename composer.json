@@ -1,0 +1,17 @@
+{
+    "name": "artemiyov/test",
+    "description": "User registration and authentication",
+    "autoload": {
+        "psr-4": {
+            "Artemiyov\\Test\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artemiy Ovchinnikov",
+            "email": "parentaladvicecontrol@gmail.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {}
+}

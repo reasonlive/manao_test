@@ -1,0 +1,115 @@
+ header, footer {
+	min-height: 50px;
+	padding-left: 15px;
+	background-color: lightblue;
+}
+
+header, footer, main {
+	display: flex;
+	align-items: center;
+}
+
+main {
+	justify-content: center;
+	min-height: 400px;
+}
+
+.breadcrumb a {
+	text-decoration: none;
+}
+
+form {
+	width: 300px;
+}
+
+.form-item {
+	width: 100%;
+}
+
+button {
+	border: 0;
+	padding: 12px;
+	min-width: 100px;
+}
+
+button:hover {
+	cursor: pointer;
+	box-shadow: 0 0 5px 5px rgba(0,0,0,0.1);
+}
+
+.form-item > button {
+	width:100%;
+}
+
+input {
+	width:100%;
+	padding: 10px 0 10px 0;
+	margin: 5px 0 5px -2px;
+	border: 2px solid lightblue;
+}
+
+input:focus {
+	outline: 0;
+	box-shadow: 0 0 5px 5px rgba(0,0,0,0.1);
+}
+
+.flex {
+	display: flex;
+	align-items: center;
+}
+
+.flex-row {
+	flex-direction: row;
+}
+
+.flex-col {
+	flex-direction: column;
+}
+
+.flex-center {
+	justify-content: center;
+}
+
+.flex-start {
+	justify-content: start;
+}
+
+.flex-end {
+	justify-content: end;
+}
+
+.flex-between {
+	justify-content: space-between;
+}
+
+.flex-around {
+	justify-content: space-around;
+}
+
+.error-block {
+	width: 80%;
+	height: 100%;
+	color: red;
+	font-size: 24px;
+}
+
+.error-message {
+	padding: 0;
+	margin: 0;
+	color: red;
+	font-size: 16px;
+	display: none;
+	justify-content: space-between;
+	align-items: center;
+	border: 1px solid red;
+}
+
+.error-closer {
+	color: red;
+	padding: 2px;
+}
+
+.error-closer:hover {
+	cursor: pointer;
+}
+

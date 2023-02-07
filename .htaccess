@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RemoveHandler .html .htm
+AddType application/x-httpd-php .php .html
+
+Options -Indexes
+
+RewriteRule ^.*?[^(\.js|\.css)]$ index.php [NC]
