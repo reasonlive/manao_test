@@ -23,8 +23,8 @@ class PostRequestHandler extends RequestHandler
    */
 	private array $route_handlers = [
 		'registration' => 'registerUser',
-		'login' => 'loginUser',
-		'account/delete' => 'deleteUser',
+		'login'        => 'loginUser',
+		'delete-user'  => 'deleteUser',
 	];
 
 	public function process(?string $path = null): void
@@ -33,7 +33,8 @@ class PostRequestHandler extends RequestHandler
 		// get handler for the current route
 		$handler = null;
 		foreach($this->route_handlers as $path => $method) {
-			if (str_contains($this->getReferer(), $path)) {
+			if (preg_match("/$path/", $this->getReferer())) {
+        //echo $path;
 				$handler = $method;
 			}
 		}
@@ -64,15 +65,22 @@ class PostRequestHandler extends RequestHandler
 			->sendHeaders();
 
 		if ($validation_error = FormValidator::validate($this->getRequestParams())) {
-			echo json_encode(['error' => true, ...$validation_error], $this->json_option);
+			echo json_encode($validation_error, $this->json_option);
 		} else {
 
 			$user = new User($this->getRequestParams());
 			if ($not_unique_fields = $user->getEqualFields()) {
-				$errors_list = [];
+
 				foreach($not_unique_fields as $field => $value) {
-					$errors_list = ['field' => $field, 'message' => 'Придумайте уникальное значение']; 
-					echo json_encode(['error' => true, ...$errors_list], $this->json_option);
+
+					echo json_encode(
+            [
+              'error' => true,
+              'field' => $field,
+              'message' => 'Придумайте уникальное значение',
+            ],
+            $this->json_option
+          );
 					
 					exit;	
 				}
@@ -99,19 +107,21 @@ class PostRequestHandler extends RequestHandler
 		$params = $this->getRequestParams();
 
 		if ($validation_error = FormValidator::validate($params, false)) {
-			echo json_encode(['error' => true, ...$validation_error], $this->json_option);
+			echo json_encode($validation_error, $this->json_option);
 			exit;
 		}
 
 		// returns user instance or array with error
-		$user = User::loadAfterValidation($params['login'], $params['password']);
+    /** @var User|array $result */
+		$result = User::loadAfterValidation($params['login'], $params['password']);
 		
-		if (!($user instanceof User)) {
-			echo json_encode(['error' => true, ...$user], $this->json_option);
+		if (!($result instanceof User)) {
+      $result['error'] = true;
+			echo json_encode($result, $this->json_option);
 			exit;
 		}
 
-		$this->rememberThroughSession('username', $user->getField('username'));
+		$this->rememberThroughSession('username', $result->getField('username'));
 		echo json_encode(['error' => false, 'redirect' => '/account']);				
 	}
 

@@ -21,11 +21,12 @@ class FormValidator
    * @param mixed $value
    * @return array<string, string>|null Error [field, message]
    */
-	public function checkFieldValue(string $fieldname, mixed $value): ?array
+	public function checkFieldValue(string $fieldname, $value): ?array
 	{
 		if (array_key_exists($fieldname, $this->rules)) {
 			if (! preg_match($this->rules[$fieldname]['pattern'], $value)) {
 				return [
+          'error'   => true,
 					'field'   => $fieldname,
 					'message' => "Поле {$this->rules[$fieldname]["alias"]} не прошло валидацию"
 				];
@@ -44,7 +45,11 @@ class FormValidator
 	public function assertPassword(string $password, string $confirm_password): ?array
 	{
 		if ($password !== $confirm_password) {
-			return ['field' => 'confirm_password', 'message' => "Пароли не совпадают"];
+			return [
+          'error'   => true,
+          'field'   => 'confirm_password',
+          'message' => "Пароли не совпадают"
+      ];
 		}
 
 		return null;

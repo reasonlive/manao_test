@@ -34,7 +34,7 @@ class Template
    * @return $this
    * @throws \Exception
    */
-	public function addTemplateBlock(string $block_name, string $template_name): static
+	public function addTemplateBlock(string $block_name, string $template_name)
 	{
 		if ($block_path = $this->findFile($template_name)) {
 			$this->data[$block_name] = $block_path;
@@ -51,7 +51,7 @@ class Template
    * @param string $value String to be rendered as a variable
    * @return $this
    */
-	public function addTemplateParam(string $param_name, string $value): static
+	public function addTemplateParam(string $param_name, string $value)
   {
 		$this->data[$param_name] = $value;
 		return $this;
@@ -86,7 +86,7 @@ class Template
 	
 		foreach (scandir($dir) as $filename) {
 			if (! preg_match('/^\.+$/', $filename)) {
-					if (str_contains($filename, $name)) {
+					if (preg_match("/$name/", $filename)) {
 						$found = $dir . $filename;
 					}
 

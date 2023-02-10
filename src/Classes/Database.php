@@ -88,7 +88,7 @@ class Database
 		}
 
 		if ($json = file_get_contents($table_path)) {
-			$this->data = json_decode($json, true);
+			$this->data = json_decode($json, true) ?? [];
 		} else {
 			$this->data = [];
 		}

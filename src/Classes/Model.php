@@ -150,7 +150,7 @@ abstract class Model
    * @return Model|null Object from database or null
    * @throws \Exception
    */
-	public static function load(mixed $value, ?string $field = null): ?Model
+	public static function load($value, ?string $field = null): ?Model
 	{
 		$data = []; // data from database about one record
 

@@ -59,7 +59,7 @@ class User extends Model
    * @param string $password
    * @return array<string , string>|User User object or array with error [field, message]
    */
-	public static function loadAfterValidation(string $login, string $password): mixed
+	public static function loadAfterValidation(string $login, string $password)
 	{
 		if ($user = self::loadByLogin($login)) {
 			$hash = sha1($password . $user->getField('salt'));

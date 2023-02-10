@@ -44,7 +44,7 @@ abstract class RequestHandler
 		$this->request_headers = [];
 
 		foreach ($_SERVER as $server_var => $value) {
-			if (str_starts_with($server_var, 'HTTP')) {
+			if (preg_match('/^HTTP_/', $server_var)) {
 				$this->request_headers[$server_var] = $value;
 			}
 
@@ -95,7 +95,7 @@ abstract class RequestHandler
    * @param string $value
    * @return $this
    */
-	protected function setHeader(string $name, string $value): static
+	protected function setHeader(string $name, string $value)
 	{
 		$this->response_headers[$name] = $value;
 		return $this;
@@ -126,11 +126,11 @@ abstract class RequestHandler
    * @param int $expire_days_count Amount of days, 1 by default
    * @return $this
    */
-	public function setCookie(string $key, string $value, int $expire_days_count = 1): static
+	public function setCookie(string $key, string $value, int $expire_days_count = 1)
 	{
 		$expire = time() + 60 * 60 * 24 * $expire_days_count;
 
-		setcookie($key, $value, $expire, path: '/', httponly: true);
+		setcookie($key, $value, $expire, '/', '', false, true);
 		return $this;
 	}
 
@@ -139,7 +139,7 @@ abstract class RequestHandler
    * @param string|null $key is null, clears all cookie
    * @return $this
    */
-	public function clearCookie(?string $key = null): static
+	public function clearCookie(?string $key = null)
 	{
 		if ($key) {
 			unset($_COOKIE[$key]);
@@ -156,7 +156,7 @@ abstract class RequestHandler
    * @param string $value empty by default
    * @return $this
    */
-	public function setSession(string $key = '', string $value = ''): static
+	public function setSession(string $key = '', string $value = '')
 	{
 		if (session_status() !== PHP_SESSION_ACTIVE) {
 			session_start();			
@@ -174,7 +174,7 @@ abstract class RequestHandler
    * @param string|null $key if it null, clears all keys
    * @return $this
    */
-	public function clearSession(?string $key = null): static
+	public function clearSession(?string $key = null)
 	{
 		if ($key) {
 			unset($_SESSION[$key]);
@@ -191,7 +191,7 @@ abstract class RequestHandler
    * @param string $value
    * @return $this
    */
-	public function rememberThroughSession(string $key, string $value): static
+	public function rememberThroughSession(string $key, string $value)
 	{
 		$this->setCookie($key, $value);
 		$this->setSession($key, $value);
@@ -204,7 +204,7 @@ abstract class RequestHandler
    * @param string|null $key if it null, clears all keys
    * @return $this
    */
-	public function forgetThroughSession(string $key = null): static
+	public function forgetThroughSession(string $key = null)
 	{
 		$this->clearCookie($key);
 		$this->clearSession($key);
