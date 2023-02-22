@@ -11,8 +11,8 @@ class FormValidator
 	private array $rules = [
 		'username' => ['pattern' => '/^[a-zа-я]{2,50}$/iu', 'alias' => 'Имя'],
 		'login'    => ['pattern' => '/^[a-zа-я\-\_@0-9]{6,50}$/iu', 'alias' => 'Логин'],
-		'password' => ['pattern' => '/^[a-zа-я0-9]{6,200}$/iu', 'alias' => 'Пароль'],
-		'email'    => ['pattern' => '/^[a-z0-9]{2,200}@[a-z]{2,15}\.[a-z]{2,15}$/', 'alias' => 'Почта'],
+		'password' => ['pattern' => '/^\S{6,200}$/iu', 'alias' => 'Пароль'],
+		'email'    => ['pattern' => '/^[a-z0-9]{2,200}@[a-z]{2,15}\.[a-z]{2,15}$/i', 'alias' => 'Почта'],
 	];
 
   /**
@@ -42,18 +42,18 @@ class FormValidator
    * @param string $confirm_password
    * @return array<string, string>|null Error [field, message]
    */
-	public function assertPassword(string $password, string $confirm_password): ?array
-	{
-		if ($password !== $confirm_password) {
-			return [
-          'error'   => true,
-          'field'   => 'confirm_password',
-          'message' => "Пароли не совпадают"
+  public function assertPassword(string $password, string $confirm_password): ?array
+  {
+    if ($password !== $confirm_password) {
+      return [
+        'error'   => true,
+        'field'   => 'confirm_password',
+        'message' => "Пароли не совпадают"
       ];
-		}
+    }
 
-		return null;
-	}
+    return null;
+  }
 
   /**
    * Validates all in one place

@@ -29,7 +29,7 @@ function showError(field, message) {
  */
 function validateForm(data) {
 	const namePattern = /^[a-zа-я]{2,50}$/i;
-	const emailPattern = /^[a-z]{4,100}@[a-z]{3,15}\.[a-z]{2,15}$/i;
+	const emailPattern = /^[a-z0-9]{4,100}@[a-z]{3,15}\.[a-z]{2,15}$/i;
 
 	// all fields must be filled
 	for (let pair of data.entries()) {
